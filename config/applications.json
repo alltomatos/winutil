@@ -2075,5 +2075,105 @@
         "content": "Lua",
         "link": "https://github.com/rjpcomputing/luaforwindows",
         "foss": true
+    },
+    "pvc-nodejslts": {
+        "category": "Packvibecoding",
+        "choco": "nodejs-lts",
+        "content": "NodeJS LTS",
+        "description": "NodeJS LTS provides Long-Term Support releases for stable and reliable server-side JavaScript development. Required by most AI coding assistants.",
+        "link": "https://nodejs.org/",
+        "winget": "OpenJS.NodeJS.LTS",
+        "foss": true
+    },
+    "pvc-claude-code": {
+        "category": "Packvibecoding",
+        "choco": "claude-code",
+        "content": "Claude Code",
+        "description": "Anthropic's agentic coding tool for terminal and IDE development workflows.",
+        "link": "https://code.claude.com/",
+        "winget": "Anthropic.ClaudeCode",
+        "foss": false
+    },
+    "pvc-codex": {
+        "category": "Packvibecoding",
+        "choco": "codex",
+        "content": "Codex",
+        "description": "Codex CLI is an OpenAI coding agent that runs locally in your terminal.",
+        "link": "https://developers.openai.com/codex/cli",
+        "winget": "OpenAI.Codex",
+        "foss": true
+    },
+    "pvc-opencode": {
+        "category": "Packvibecoding",
+        "choco": "na",
+        "content": "OpenCode CLI",
+        "description": "OpenCode is an open source AI coding agent that runs as a terminal CLI.",
+        "link": "https://opencode.ai",
+        "winget": "SST.opencode",
+        "foss": true
+    },
+    "pvc-omniroute": {
+        "category": "Packvibecoding",
+        "choco": "na",
+        "content": "OmniRoute",
+        "description": "OmniRoute is a free, MIT-licensed AI gateway that unifies AI providers behind one local endpoint with intelligent routing for coding agents. Installed via npm; requires NodeJS LTS.",
+        "link": "https://github.com/diegosouzapw/OmniRoute",
+        "winget": "na",
+        "npm": "omniroute@latest",
+        "foss": true
+    },
+    "pvc-vscode": {
+        "category": "Packvibecoding",
+        "choco": "vscode",
+        "content": "VS Code",
+        "description": "Visual Studio Code is a free, open-source code editor with support for multiple programming languages.",
+        "link": "https://code.visualstudio.com/",
+        "winget": "Microsoft.VisualStudioCode",
+        "foss": true
+    },
+    "pvc-terminal": {
+        "category": "Packvibecoding",
+        "choco": "microsoft-windows-terminal",
+        "content": "Windows Terminal",
+        "description": "Windows Terminal is a modern, fast, and efficient terminal application for command-line users, supporting multiple tabs, panes, and more.",
+        "link": "https://aka.ms/terminal",
+        "winget": "Microsoft.WindowsTerminal",
+        "foss": true
+    },
+    "pvc-git": {
+        "category": "Packvibecoding",
+        "choco": "git",
+        "content": "Git",
+        "description": "Git is a distributed version control system widely used for tracking changes in source code during software development.",
+        "link": "https://git-scm.com/",
+        "winget": "Git.Git",
+        "foss": true
+    },
+    "pvc-python3": {
+        "category": "Packvibecoding",
+        "choco": "python",
+        "content": "Python3",
+        "description": "Python is a versatile programming language used for web development, data analysis, artificial intelligence, and more.",
+        "link": "https://www.python.org/",
+        "winget": "Python.Python.3.14",
+        "foss": true
+    },
+    "pvc-notepadplus": {
+        "category": "Packvibecoding",
+        "choco": "notepadplusplus",
+        "content": "Notepad++",
+        "description": "Notepad++ is a free, open-source code editor and Notepad replacement with support for multiple languages.",
+        "link": "https://notepad-plus-plus.org/",
+        "winget": "Notepad++.Notepad++",
+        "foss": true
+    },
+    "pvc-sublimetext": {
+        "category": "Packvibecoding",
+        "choco": "sublimetext4",
+        "content": "Sublime Text",
+        "description": "Sublime Text is a sophisticated text editor for code, markup, and prose.",
+        "link": "https://www.sublimetext.com/",
+        "winget": "SublimeHQ.SublimeText.4",
+        "foss": false
     }
 }

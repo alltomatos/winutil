@@ -16,9 +16,11 @@ function Get-WinUtilSelectedPackages {
 
     $packagesWinget = [System.Collections.ArrayList]::new()
     $packagesChoco = [System.Collections.ArrayList]::new()
+    $packagesNpm = [System.Collections.ArrayList]::new()
     $packages = @{
         Winget = $packagesWinget
         Choco = $packagesChoco
+        Npm = $packagesNpm
     }
 
     function Add-PackageId {
@@ -37,6 +39,11 @@ function Get-WinUtilSelectedPackages {
     }
 
     foreach ($package in $PackageList) {
+        if (-not [string]::IsNullOrWhiteSpace([string]$package.npm) -and $package.npm -ne "na") {
+            Add-PackageId -Target $packagesNpm -PackageId $package.npm
+            continue
+        }
+
         switch ($Preference) {
             "Choco" {
                 if ([string]::IsNullOrWhiteSpace([string]$package.choco) -or $package.choco -eq "na") {

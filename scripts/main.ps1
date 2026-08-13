@@ -361,6 +361,7 @@ $sync.AppCategoryChips = @(
     @{ Name = "WPFSearchChipCommunications";  Category = "Communications" }
     @{ Name = "WPFSearchChipDevelopment";     Category = "Development" }
     @{ Name = "WPFSearchChipDocument";        Category = "Document" }
+    @{ Name = "WPFSearchChipPackvibecoding";  Category = "Packvibecoding" }
     @{ Name = "WPFSearchChipGames";           Category = "Games" }
     @{ Name = "WPFSearchChipMicrosoftTools";  Category = "Microsoft Tools" }
     @{ Name = "WPFSearchChipMultimediaTools"; Category = "Multimedia Tools" }
@@ -379,6 +380,7 @@ $sync["WPFSearchChipBrowsers"].Add_Click({ Invoke-WinUtilAppCategoryChip -Chip $
 $sync["WPFSearchChipCommunications"].Add_Click({ Invoke-WinUtilAppCategoryChip -Chip $this })
 $sync["WPFSearchChipDevelopment"].Add_Click({ Invoke-WinUtilAppCategoryChip -Chip $this })
 $sync["WPFSearchChipDocument"].Add_Click({ Invoke-WinUtilAppCategoryChip -Chip $this })
+$sync["WPFSearchChipPackvibecoding"].Add_Click({ Invoke-WinUtilAppCategoryChip -Chip $this })
 $sync["WPFSearchChipGames"].Add_Click({ Invoke-WinUtilAppCategoryChip -Chip $this })
 $sync["WPFSearchChipMicrosoftTools"].Add_Click({ Invoke-WinUtilAppCategoryChip -Chip $this })
 $sync["WPFSearchChipMultimediaTools"].Add_Click({ Invoke-WinUtilAppCategoryChip -Chip $this })
