@@ -7,7 +7,7 @@
 #### **Run the latest pre-release**
 
 ```ps1
-irm https://christitus.com/windev | iex
+irm https://github.com/alltomatos/winutil/releases/latest/download/winutil.ps1 | iex
 ```
 
 > [!CAUTION]

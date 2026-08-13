@@ -27,12 +27,12 @@ Winutil deve essere eseguito con privilegi di amministratore, poiché apporta mo
 #### Branch stabile (Consigliato)
 
 ```ps1
-irm "https://christitus.com/win" | iex
+irm "https://github.com/alltomatos/winutil/releases/latest/download/winutil.ps1" | iex
 ```
 #### Branch Sviluppatore
 
 ```ps1
-irm "https://christitus.com/windev" | iex
+irm "https://github.com/alltomatos/winutil/releases/latest/download/winutil.ps1" | iex
 ```
 
 ### Automazione
@@ -46,7 +46,7 @@ Winutil supporta anche preset predefiniti che applicano automaticamente configur
 Esempio:
 
 ```powershell
-& ([ScriptBlock]::Create((irm "https://christitus.com/win"))) -Preset Standard
+& ([ScriptBlock]::Create((irm "https://github.com/alltomatos/winutil/releases/latest/download/winutil.ps1"))) -Preset Standard
 ```
 
 Per vedere esattamente cosa fa ogni preset, consulta:

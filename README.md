@@ -19,12 +19,12 @@ Open PowerShell or Terminal as admin, then run:
 
 **Stable Branch (recommended)**
 ```ps1
-irm https://christitus.com/win | iex
+irm https://github.com/alltomatos/winutil/releases/latest/download/winutil.ps1 | iex
 ```
 
 **Development Branch**
 ```ps1
-irm https://christitus.com/windev | iex
+irm https://github.com/alltomatos/winutil/releases/latest/download/winutil.ps1 | iex
 ```
 
 ### How to open an admin terminal
@@ -39,7 +39,7 @@ irm https://christitus.com/windev | iex
 Apply a predefined configuration without manual selection:
 
 ```powershell
-& ([ScriptBlock]::Create((irm https://christitus.com/win))) -Preset Standard
+& ([ScriptBlock]::Create((irm https://github.com/alltomatos/winutil/releases/latest/download/winutil.ps1))) -Preset Standard
 ```
 
 | Preset | Description |
