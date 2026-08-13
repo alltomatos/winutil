@@ -29,6 +29,9 @@ BeforeAll {
     function Install-WinUtilProgramChoco {
         param($Action, $Programs)
     }
+    function Install-WinUtilProgramNpm {
+        param($Action, $Programs)
+    }
     function Invoke-WPFUIThread {
         param([scriptblock]$ScriptBlock)
     }
@@ -84,12 +87,14 @@ BeforeAll {
     function script:New-WinUtilPackageSplit {
         param(
             [string[]]$Winget = @(),
-            [string[]]$Choco = @()
+            [string[]]$Choco = @(),
+            [string[]]$Npm = @()
         )
 
         $packages = @{}
         $packages["Winget"] = [System.Collections.Generic.List[string]]::new()
         $packages["Choco"] = [System.Collections.Generic.List[string]]::new()
+        $packages["Npm"] = [System.Collections.Generic.List[string]]::new()
 
         foreach ($package in $Winget) {
             $null = $packages["Winget"].Add($package)
@@ -97,6 +102,10 @@ BeforeAll {
 
         foreach ($package in $Choco) {
             $null = $packages["Choco"].Add($package)
+        }
+
+        foreach ($package in $Npm) {
+            $null = $packages["Npm"].Add($package)
         }
 
         $packages

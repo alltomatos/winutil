@@ -9,9 +9,11 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Test-WinUtilPackageManager.ps1")
     . (Join-Path $script:repoRoot "functions\private\Install-WinUtilProgramWinget.ps1")
     . (Join-Path $script:repoRoot "functions\private\Install-WinUtilProgramChoco.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Install-WinUtilProgramNpm.ps1")
 
     function Invoke-WPFUIThread { }
     function Write-WinUtilLog { }
+    function Install-WinUtilWinget { }
 }
 
 Describe "Get-WinUtilSelectedPackages" {
@@ -29,6 +31,18 @@ Describe "Get-WinUtilSelectedPackages" {
 
         (@($result["Winget"]) -join "|") | Should -Be "Git.Git|VideoLAN.VLC"
         @($result["Choco"]).Count | Should -Be 0
+    }
+
+    It "routes packages with an npm ID to Npm regardless of preference" {
+        $packages = @(
+            [pscustomobject]@{ winget = "na"; choco = "na"; npm = "omniroute@latest" }
+            [pscustomobject]@{ winget = "Git.Git"; choco = "git" }
+        )
+
+        $result = Get-WinUtilSelectedPackages -PackageList $packages -Preference "Choco"
+
+        (@($result["Npm"]) -join "|") | Should -Be "omniroute@latest"
+        (@($result["Choco"]) -join "|") | Should -Be "git"
     }
 
     It "uses choco IDs and falls back to winget for na or missing choco IDs" {
@@ -167,5 +181,58 @@ Describe "Install-WinUtilProgramChoco" {
         Should -Invoke -CommandName Start-Process -Times 1 -Exactly -ParameterFilter {
             $FilePath -eq "choco" -and $ArgumentList -eq "uninstall git -y"
         }
+    }
+}
+
+Describe "Install-WinUtilProgramNpm" {
+    BeforeEach {
+        Mock Write-WinUtilLog { }
+        Mock Install-WinUtilWinget { }
+        Mock Install-WinUtilProgramWinget { }
+        Mock Start-Process { [pscustomobject]@{ ExitCode = 0 } }
+    }
+
+    It "starts npm with install arguments when npm is already on PATH" {
+        Mock Get-Command { [pscustomobject]@{ Name = "npm" } } -ParameterFilter { $Name -eq "npm" }
+
+        Install-WinUtilProgramNpm -Action Install -Programs @("omniroute@latest")
+
+        Should -Invoke -CommandName Start-Process -Times 1 -Exactly -ParameterFilter {
+            $FilePath -eq "npm" -and
+                (@($ArgumentList) -join "|") -eq "install|-g|omniroute@latest" -and
+                $NoNewWindow -eq $true -and
+                $Wait -eq $true -and
+                $PassThru -eq $true
+        }
+        Should -Invoke -CommandName Install-WinUtilProgramWinget -Times 0 -Exactly
+    }
+
+    It "installs Node.js LTS via winget first when npm is missing" {
+        Mock Get-Command { $null } -ParameterFilter { $Name -eq "npm" }
+
+        Install-WinUtilProgramNpm -Action Install -Programs @("omniroute@latest")
+
+        Should -Invoke -CommandName Install-WinUtilProgramWinget -Times 1 -Exactly -ParameterFilter {
+            $Action -eq "Install" -and (@($Programs) -join "|") -eq "OpenJS.NodeJS.LTS"
+        }
+        Should -Invoke -CommandName Start-Process -Times 1 -Exactly -ParameterFilter {
+            $FilePath -eq "npm" -and (@($ArgumentList) -join "|") -eq "install|-g|omniroute@latest"
+        }
+    }
+
+    It "starts npm with uninstall arguments and does not check for a Node prerequisite" {
+        Install-WinUtilProgramNpm -Action Uninstall -Programs @("omniroute@latest")
+
+        Should -Invoke -CommandName Install-WinUtilProgramWinget -Times 0 -Exactly
+        Should -Invoke -CommandName Start-Process -Times 1 -Exactly -ParameterFilter {
+            $FilePath -eq "npm" -and (@($ArgumentList) -join "|") -eq "uninstall|-g|omniroute@latest"
+        }
+    }
+
+    It "skips blank and na package IDs" {
+        Install-WinUtilProgramNpm -Action Install -Programs @(" ", "na")
+
+        Should -Invoke -CommandName Start-Process -Times 0 -Exactly
+        Should -Invoke -CommandName Install-WinUtilProgramWinget -Times 0 -Exactly
     }
 }
