@@ -54,6 +54,7 @@ function Invoke-WPFButton {
         "WPFMinimal" {Invoke-WPFPresets "Minimal" -checkboxfilterpattern "WPFTweak*"}
         "WPFAdvanced" {Invoke-WPFPresets "Advanced" -checkboxfilterpattern "WPFTweak*"}
         "WPFClearTweaksSelection" {Invoke-WPFPresets -imported $true -checkboxfilterpattern "WPFTweak*"}
+        "WPFSelectAllApps" {Invoke-WPFSelectAllApps}
         "WPFClearInstallSelection" {Invoke-WPFPresets -imported $true -checkboxfilterpattern "WPFInstall*"}
         "WPFtweaksbutton" {Invoke-WPFtweaksbutton}
         "WPFOOSUbutton" {Invoke-WPFOOSU}
