@@ -638,6 +638,15 @@
         "winget": "HeroicGamesLauncher.HeroicGamesLauncher",
         "foss": true
     },
+    "hermesdesktop": {
+        "category": "Development",
+        "choco": "na",
+        "content": "Hermes Agent Desktop",
+        "description": "Hermes Agent Desktop is a community-maintained native desktop app for installing, configuring, and chatting with Hermes Agent.",
+        "link": "https://hermesone.org",
+        "winget": "fathah.HermesDesktop",
+        "foss": true
+    },
     "hwinfo": {
         "category": "Pro Tools",
         "choco": "hwinfo",
@@ -1024,7 +1033,7 @@
     "foss": true
     },
     "notepadplus": {
-        "category": "Multimedia Tools",
+        "category": "Development",
         "choco": "notepadplusplus",
         "content": "Notepad++",
         "description": "Notepad++ is a free, open-source code editor and Notepad replacement with support for multiple languages.",
@@ -1113,6 +1122,24 @@
         "winget": "OpenRGB.OpenRGB",
         "foss": true
     },
+    "opencode": {
+        "category": "Development",
+        "choco": "na",
+        "content": "OpenCode CLI",
+        "description": "OpenCode is an open source AI coding agent that runs as a terminal CLI.",
+        "link": "https://opencode.ai",
+        "winget": "SST.opencode",
+        "foss": true
+    },
+    "opencodedesktop": {
+        "category": "Development",
+        "choco": "na",
+        "content": "OpenCode Desktop",
+        "description": "OpenCode Desktop is the desktop app for OpenCode, an open source AI coding agent.",
+        "link": "https://opencode.ai",
+        "winget": "SST.OpenCodeDesktop",
+        "foss": true
+    },
     "OpenVPN": {
         "category": "Pro Tools",
         "choco": "openvpn-connect",
@@ -1129,6 +1156,15 @@
         "description": "Oracle VirtualBox is a powerful and free open-source virtualization tool for x86 and AMD64/Intel64 architectures.",
         "link": "https://www.virtualbox.org/",
         "winget": "Oracle.VirtualBox",
+        "foss": true
+    },
+    "orca": {
+        "category": "Development",
+        "choco": "na",
+        "content": "Orca",
+        "description": "Orca is an ADE (Agent Development Environment) for running a fleet of parallel coding agents in isolated git worktrees and merging the best output.",
+        "link": "https://onOrca.dev",
+        "winget": "StablyAI.Orca",
         "foss": true
     },
     "policyplus": {
