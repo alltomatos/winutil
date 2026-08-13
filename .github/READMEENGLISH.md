@@ -4,90 +4,88 @@
 ![Downloads](https://img.shields.io/github/downloads/ChrisTitusTech/winutil/winutil.ps1?label=Total%20Downloads&style=for-the-badge)
 [![Discord](https://dcbadge.limes.pink/api/server/https://discord.gg/RUbZUZyByQ?theme=default-inverted&style=for-the-badge)](https://discord.gg/RUbZUZyByQ)
 
-**[Read in English](.github/READMEENGLISH.md)**
+> This is a fork of the [original WinUtil by Chris Titus Tech](https://github.com/ChrisTitusTech/winutil), credit to him and all the [original project's contributors](https://github.com/ChrisTitusTech/winutil/graphs/contributors) for the foundational work. This fork adds customizations for the Brazilian community, such as apps and categories tailored for AI-assisted coding workflows.
 
-> Este é um fork do [WinUtil original de Chris Titus Tech](https://github.com/ChrisTitusTech/winutil), com créditos a ele e a todos os [contribuidores do projeto original](https://github.com/ChrisTitusTech/winutil/graphs/contributors) pelo trabalho de base. Este fork traz personalizações voltadas para a comunidade brasileira, como apps e categorias específicas para quem programa com assistentes de IA.
+A curated compilation of Windows system tasks streamline **installs**, debloat with **tweaks**, troubleshoot with **config**, and configure **Windows updates**. Run it fresh on every new Windows install.
 
-Uma coletânea organizada de tarefas do Windows para simplificar **instalações**, remover bloatware com **tweaks**, resolver problemas com **config**, e configurar as **atualizações do Windows**. Rode em toda instalação nova do Windows.
-
-![Title Screen](docs/src/assets/branding/title-screen.png)
+![Title Screen](/docs/src/assets/branding/title-screen.png)
 
 
 ---
 
-## Início Rápido
+## Quick Start
 
-> **O WinUtil precisa ser executado como Administrador**, pois realiza alterações em todo o sistema.
+> **WinUtil must be run as Administrator** Because it performs system-wide changes.
 
-Abra o PowerShell ou o Terminal como administrador e rode:
+Open PowerShell or Terminal as admin, then run:
 
-**Branch Estável (recomendado)**
+**Stable Branch (recommended)**
 ```ps1
 irm https://github.com/alltomatos/winutil/releases/latest/download/winutil.ps1 | iex
 ```
 
-**Branch de Desenvolvimento**
+**Development Branch**
 ```ps1
 irm https://raw.githubusercontent.com/alltomatos/winutil/develop/winutil.ps1 | iex
 ```
 
-### Como abrir um terminal como administrador
+### How to open an admin terminal
 
-- **Menu Iniciar:** Clique com o botão direito em Iniciar → *Windows PowerShell (Admin)* ou *Terminal (Admin)*
-- **Pesquisar:** Pressione a tecla `Windows` e digite `PowerShell` ou `Terminal`, depois `Ctrl + Shift + Enter`
+- **Start menu:** Right-click Start → *Windows PowerShell (Admin)* or *Terminal (Admin)*
+- **Search:** Press the `Windows key`, and type `PowerShell` or `Terminal`, then `Ctrl + Shift + Enter`
 
 ---
 
-## Automação / Presets
+## Automation / Presets
 
-Aplique uma configuração predefinida sem seleção manual:
+Apply a predefined configuration without manual selection:
 
 ```powershell
 & ([ScriptBlock]::Create((irm https://github.com/alltomatos/winutil/releases/latest/download/winutil.ps1))) -Preset Standard
 ```
 
-| Preset | Descrição |
+| Preset | Description |
 |--------|-------------|
-| `Standard` | Padrões equilibrados para a maioria dos usuários |
-| `Minimal` | Alterações mínimas, adequadas para qualquer usuário |
-| `Advanced` | Ajustes avançados para usuários experientes |
+| `Standard` | Balanced defaults for most users |
+| `Minimal` | Minimal changes to suit every user |
+| `Advanced` | Deep tweaks for power users |
 
-Para ver exatamente o que cada preset faz, consulte:
+To view exactly what each preset does, see:
 https://github.com/ChrisTitusTech/winutil/blob/main/config/preset.json
 
 ---
 
-## Build & Desenvolvimento
+## Build & Develop
 
-Consulte https://github.com/ChrisTitusTech/winutil/blob/main/.github/CONTRIBUTING.md
-
----
-
-## Recursos
-
-- [Documentação Oficial](https://winutil.christitus.com/)
-- [Tutorial no YouTube](https://www.youtube.com/watch?v=6UQZ5oQg8XA)
-- [Artigo no ChrisTitus.com](https://christitus.com/windows-tool/)
-- [Problemas Conhecidos](https://winutil.christitus.com/knownissues/)
-- [Reportar um Problema](https://github.com/ChrisTitusTech/winutil/issues)
+See https://github.com/ChrisTitusTech/winutil/blob/main/.github/CONTRIBUTING.md
 
 ---
 
-## Apoie o Projeto
+## Resources
 
-- Deixe uma ⭐ para mostrar seu apoio!
-- Wrapper EXE por $10 em https://www.cttstore.com/windows-toolbox
+- [Official Documentation](https://winutil.christitus.com/)
+- [YouTube Tutorial](https://www.youtube.com/watch?v=6UQZ5oQg8XA)
+- [ChrisTitus.com Article](https://christitus.com/windows-tool/)
+- [Known Issues](https://winutil.christitus.com/knownissues/)
+- [Report an Issue](https://github.com/ChrisTitusTech/winutil/issues)
 
-## Patrocinadores
+---
 
-Estes são os patrocinadores que ajudam a manter este projeto vivo com contribuições mensais.
+## Support
+
+- Leave a ⭐ to show support!
+- EXE Wrapper for $10 @ https://www.cttstore.com/windows-toolbox
+
+## Sponsors
+
+These are the sponsors that help keep this project alive with monthly contributions.
 
 <!-- sponsors --><a href="https://github.com/ysaito8015"><img src="https:&#x2F;&#x2F;github.com&#x2F;ysaito8015.png" width="60px" alt="User avatar: Yusuke Saito" /></a><a href="https://github.com/dwelfusius"><img src="https:&#x2F;&#x2F;github.com&#x2F;dwelfusius.png" width="60px" alt="User avatar: " /></a><a href="https://github.com/mews-se"><img src="https:&#x2F;&#x2F;github.com&#x2F;mews-se.png" width="60px" alt="User avatar: Martin" /></a><a href="https://github.com/jdiegmueller"><img src="https:&#x2F;&#x2F;github.com&#x2F;jdiegmueller.png" width="60px" alt="User avatar: Jason A. Diegmueller" /></a><a href="https://github.com/robertsandrock"><img src="https:&#x2F;&#x2F;github.com&#x2F;robertsandrock.png" width="60px" alt="User avatar: RMS" /></a><a href="https://github.com/paulsheets"><img src="https:&#x2F;&#x2F;github.com&#x2F;paulsheets.png" width="60px" alt="User avatar: Paul" /></a><a href="https://github.com/djones369"><img src="https:&#x2F;&#x2F;github.com&#x2F;djones369.png" width="60px" alt="User avatar: Dave J  (WhamGeek)" /></a><a href="https://github.com/anthonymendez"><img src="https:&#x2F;&#x2F;github.com&#x2F;anthonymendez.png" width="60px" alt="User avatar: Anthony Mendez" /></a><a href="https://github.com/FatBastard0"><img src="https:&#x2F;&#x2F;github.com&#x2F;FatBastard0.png" width="60px" alt="User avatar: " /></a><a href="https://github.com/DursleyGuy"><img src="https:&#x2F;&#x2F;github.com&#x2F;DursleyGuy.png" width="60px" alt="User avatar: DursleyGuy" /></a><a href="https://github.com/DwayneTheRockLobster1"><img src="https:&#x2F;&#x2F;github.com&#x2F;DwayneTheRockLobster1.png" width="60px" alt="User avatar: " /></a><a href="https://github.com/KieraKujisawa"><img src="https:&#x2F;&#x2F;github.com&#x2F;KieraKujisawa.png" width="60px" alt="User avatar: Kiera Meredith" /></a><a href="https://github.com/andrewpayne68"><img src="https:&#x2F;&#x2F;github.com&#x2F;andrewpayne68.png" width="60px" alt="User avatar: Andrew P" /></a><a href="https://github.com/seanh1995"><img src="https:&#x2F;&#x2F;github.com&#x2F;seanh1995.png" width="60px" alt="User avatar: Sean (ANGRYxScotsman)" /></a><a href="https://github.com/Abs313a"><img src="https:&#x2F;&#x2F;github.com&#x2F;Abs313a.png" width="60px" alt="User avatar: Abs" /></a><!-- sponsors -->
 
 ---
 
-## Contribuidores
+## Contributors
 
 [![Contributors](https://contrib.rocks/image?repo=ChrisTitusTech/winutil)](https://github.com/ChrisTitusTech/winutil/graphs/contributors)
 
-Obrigado a todos que contribuíram com tempo e esforço para este projeto. Continuem arrasando 🍻
+Thanks to everyone who has contributed time and effort to this project. Keep rocking 🍻
