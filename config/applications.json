@@ -2148,6 +2148,51 @@
         "winget": "SST.OpenCodeDesktop",
         "foss": true
     },
+    "pvc-orca": {
+        "category": "Packvibecoding",
+        "choco": "na",
+        "content": "Orca",
+        "description": "Orca is an ADE (Agent Development Environment) for running a fleet of parallel coding agents in isolated git worktrees and merging the best output.",
+        "link": "https://onOrca.dev",
+        "winget": "StablyAI.Orca",
+        "foss": true
+    },
+    "pvc-winrar": {
+        "category": "Packvibecoding",
+        "choco": "winrar",
+        "content": "WinRAR",
+        "description": "WinRAR is a powerful archive manager that allows you to create, manage, and extract compressed files.",
+        "link": "https://www.win-rar.com/",
+        "winget": "RARLab.WinRAR",
+        "foss": false
+    },
+    "pvc-uv": {
+        "category": "Packvibecoding",
+        "choco": "uv",
+        "content": "uv",
+        "description": "uv is a fast Python package and project manager written in Rust.",
+        "link": "https://docs.astral.sh/uv/getting-started/installation/",
+        "winget": "astral-sh.uv",
+        "foss": true
+    },
+    "pvc-githubcli": {
+        "category": "Packvibecoding",
+        "choco": "gh",
+        "content": "GitHub CLI",
+        "description": "GitHub CLI brings pull requests, issues, releases, and other GitHub workflows to the terminal.",
+        "link": "https://cli.github.com/",
+        "winget": "GitHub.cli",
+        "foss": true
+    },
+    "pvc-golang": {
+        "category": "Packvibecoding",
+        "choco": "golang",
+        "content": "Go",
+        "description": "Go (or Golang) is a statically typed, compiled programming language designed for simplicity, reliability, and efficiency.",
+        "link": "https://go.dev/",
+        "winget": "GoLang.Go",
+        "foss": true
+    },
     "pvc-omniroute": {
         "category": "Packvibecoding",
         "choco": "na",
