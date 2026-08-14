@@ -9,7 +9,7 @@ function Get-WinUtilPackageLogSummary {
 
     @($Packages | ForEach-Object {
         $package = $_
-        $packageName = @($package.Name, $package.Description, $package.winget, $package.choco, $package.npm) |
+        $packageName = @($package.Name, $package.Description, $package.winget, $package.choco, $package.npm, $package.script) |
             Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) -and $_ -ne "na" } |
             Select-Object -First 1
 
@@ -17,7 +17,9 @@ function Get-WinUtilPackageLogSummary {
             $packageName = "Unknown package"
         }
 
-        if (-not [string]::IsNullOrWhiteSpace([string]$package.npm) -and $package.npm -ne "na") {
+        if (-not [string]::IsNullOrWhiteSpace([string]$package.script) -and $package.script -ne "na") {
+            "$packageName (script: $($package.script))"
+        } elseif (-not [string]::IsNullOrWhiteSpace([string]$package.npm) -and $package.npm -ne "na") {
             "$packageName (npm: $($package.npm))"
         } elseif ($Preference -eq "Choco" -and -not [string]::IsNullOrWhiteSpace([string]$package.choco) -and $package.choco -ne "na") {
             "$packageName (choco: $($package.choco))"

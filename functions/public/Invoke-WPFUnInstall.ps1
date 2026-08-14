@@ -43,10 +43,11 @@ function Invoke-WPFUnInstall {
         $packagesWinget = $packagesSorted['Winget']
         $packagesChoco = $packagesSorted['Choco']
         $packagesNpm = $packagesSorted['Npm']
-        $totalPackages = @($packagesWinget).Count + @($packagesChoco).Count + @($packagesNpm).Count
+        $packagesScript = $packagesSorted['Script']
+        $totalPackages = @($packagesWinget).Count + @($packagesChoco).Count + @($packagesNpm).Count + @($packagesScript).Count
         $completedPackages = 0
         $hasUI = $null -ne $sync.Form -and $null -ne $sync.Form.Dispatcher
-        Write-WinUtilLog -Component "Uninstall" -Message "Uninstall package manager split: winget=$(@($packagesWinget).Count), choco=$(@($packagesChoco).Count), npm=$(@($packagesNpm).Count)"
+        Write-WinUtilLog -Component "Uninstall" -Message "Uninstall package manager split: winget=$(@($packagesWinget).Count), choco=$(@($packagesChoco).Count), npm=$(@($packagesNpm).Count), script=$(@($packagesScript).Count)"
 
         try {
             $sync.ProcessRunning = $true
@@ -108,6 +109,15 @@ function Invoke-WPFUnInstall {
                 $completedPercent = [int](($completedPackages / $totalPackages) * 100)
                 if ($hasUI) {
                     Set-WinUtilTweaksProgressIndicator -Visible $true -Label "Uninstalled npm packages ($completedPackages/$totalPackages)" -Percent $completedPercent
+                    Invoke-WPFUIThread -ScriptBlock { Set-WinUtilTaskbaritem -value ($completedPercent / 100) }
+                }
+            }
+            if($packagesScript.Count -gt 0) {
+                Install-WinUtilProgramScript -Action Uninstall -Programs $packagesScript
+                $completedPackages += @($packagesScript).Count
+                $completedPercent = [int](($completedPackages / $totalPackages) * 100)
+                if ($hasUI) {
+                    Set-WinUtilTweaksProgressIndicator -Visible $true -Label "Skipped script-based packages, uninstall manually ($completedPackages/$totalPackages)" -Percent $completedPercent
                     Invoke-WPFUIThread -ScriptBlock { Set-WinUtilTaskbaritem -value ($completedPercent / 100) }
                 }
             }

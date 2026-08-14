@@ -10,9 +10,12 @@ BeforeAll {
     . (Join-Path $script:repoRoot "functions\private\Install-WinUtilProgramWinget.ps1")
     . (Join-Path $script:repoRoot "functions\private\Install-WinUtilProgramChoco.ps1")
     . (Join-Path $script:repoRoot "functions\private\Install-WinUtilProgramNpm.ps1")
+    . (Join-Path $script:repoRoot "functions\private\Install-WinUtilProgramScript.ps1")
 
     function Invoke-WPFUIThread { }
-    function Write-WinUtilLog { }
+    function Write-WinUtilLog {
+        param($Message, $Level, $Component)
+    }
     function Install-WinUtilWinget { }
 }
 
@@ -42,6 +45,18 @@ Describe "Get-WinUtilSelectedPackages" {
         $result = Get-WinUtilSelectedPackages -PackageList $packages -Preference "Choco"
 
         (@($result["Npm"]) -join "|") | Should -Be "omniroute@latest"
+        (@($result["Choco"]) -join "|") | Should -Be "git"
+    }
+
+    It "routes packages with a script URL to Script ahead of npm and package managers" {
+        $packages = @(
+            [pscustomobject]@{ winget = "na"; choco = "na"; script = "https://example.com/install.ps1" }
+            [pscustomobject]@{ winget = "Git.Git"; choco = "git" }
+        )
+
+        $result = Get-WinUtilSelectedPackages -PackageList $packages -Preference "Choco"
+
+        (@($result["Script"]) -join "|") | Should -Be "https://example.com/install.ps1"
         (@($result["Choco"]) -join "|") | Should -Be "git"
     }
 
@@ -263,5 +278,48 @@ Describe "Install-WinUtilProgramNpm" {
 
         Should -Invoke -CommandName Get-ExecutionPolicy -Times 0 -Exactly
         Should -Invoke -CommandName Set-ExecutionPolicy -Times 0 -Exactly
+    }
+}
+
+Describe "Install-WinUtilProgramScript" {
+    BeforeEach {
+        Mock Write-WinUtilLog { }
+        Mock Invoke-RestMethod { "# fake script content" }
+        Mock Invoke-Expression { }
+    }
+
+    It "downloads and executes the install script on Install" {
+        Install-WinUtilProgramScript -Action Install -Programs @("https://example.com/install.ps1")
+
+        Should -Invoke -CommandName Invoke-RestMethod -Times 1 -Exactly -ParameterFilter {
+            $Uri -eq "https://example.com/install.ps1"
+        }
+        Should -Invoke -CommandName Invoke-Expression -Times 1 -Exactly
+    }
+
+    It "does not download or execute anything on Uninstall, only logs" {
+        Install-WinUtilProgramScript -Action Uninstall -Programs @("https://example.com/install.ps1")
+
+        Should -Invoke -CommandName Invoke-RestMethod -Times 0 -Exactly
+        Should -Invoke -CommandName Invoke-Expression -Times 0 -Exactly
+        Should -Invoke -CommandName Write-WinUtilLog -Times 1 -Exactly -ParameterFilter {
+            $Level -eq "WARN"
+        }
+    }
+
+    It "skips blank and na entries" {
+        Install-WinUtilProgramScript -Action Install -Programs @(" ", "na")
+
+        Should -Invoke -CommandName Invoke-RestMethod -Times 0 -Exactly
+    }
+
+    It "logs an error and continues past a failed script instead of throwing" {
+        Mock Invoke-RestMethod { throw "network error" }
+
+        { Install-WinUtilProgramScript -Action Install -Programs @("https://example.com/install.ps1") } | Should -Not -Throw
+
+        Should -Invoke -CommandName Write-WinUtilLog -Times 1 -Exactly -ParameterFilter {
+            $Level -eq "ERROR"
+        }
     }
 }

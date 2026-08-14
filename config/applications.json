@@ -2193,6 +2193,16 @@
         "winget": "GoLang.Go",
         "foss": true
     },
+    "pvc-hermesofficial": {
+        "category": "Packvibecoding",
+        "choco": "na",
+        "content": "Hermes Agent (Official CLI)",
+        "description": "Official Hermes Agent CLI from Nous Research, installed via their PowerShell script (downloads and runs code from hermes-agent.nousresearch.com). Run 'hermes desktop' afterward to launch the desktop app. Distinct from the community-maintained Hermes Agent Desktop already in Development.",
+        "link": "https://hermes-agent.nousresearch.com/docs/user-guide/desktop",
+        "winget": "na",
+        "script": "https://hermes-agent.nousresearch.com/install.ps1",
+        "foss": true
+    },
     "pvc-omniroute": {
         "category": "Packvibecoding",
         "choco": "na",

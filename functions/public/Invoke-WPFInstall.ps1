@@ -21,6 +21,16 @@ function Invoke-WPFInstall {
         return
     }
 
+    $scriptPackages = @($PackagesToInstall | Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_.script) -and $_.script -ne "na" })
+    if ($scriptPackages.Count -gt 0) {
+        $scriptList = ($scriptPackages | ForEach-Object { "$($_.Content): $($_.script)" }) -join "`n"
+        $scriptWarning = "The following app(s) install by downloading and running a remote script, not through a vetted package manager like winget or choco:`n`n$scriptList`n`nContinue?"
+        $scriptConfirm = Show-WinUtilMessage -Message $scriptWarning -Title "Confirm script-based install" -Button "YesNo" -Icon "Warning"
+        if ($scriptConfirm -eq "No") {
+            return
+        }
+    }
+
     $ManagerPreference = $sync.preferences.packagemanager
     Write-WinUtilLog -Component "Install" -Message "Install requested for $(@($PackagesToInstall).Count) selected package(s) using preference: $ManagerPreference"
     $packageSummary = Get-WinUtilPackageLogSummary -Packages $PackagesToInstall -Preference $ManagerPreference
@@ -34,10 +44,11 @@ function Invoke-WPFInstall {
         $packagesWinget = $packagesSorted['Winget']
         $packagesChoco = $packagesSorted['Choco']
         $packagesNpm = $packagesSorted['Npm']
-        $totalPackages = @($packagesWinget).Count + @($packagesChoco).Count + @($packagesNpm).Count
+        $packagesScript = $packagesSorted['Script']
+        $totalPackages = @($packagesWinget).Count + @($packagesChoco).Count + @($packagesNpm).Count + @($packagesScript).Count
         $completedPackages = 0
         $hasUI = $null -ne $sync.Form -and $null -ne $sync.Form.Dispatcher
-        Write-WinUtilLog -Component "Install" -Message "Install package manager split: winget=$(@($packagesWinget).Count), choco=$(@($packagesChoco).Count), npm=$(@($packagesNpm).Count)"
+        Write-WinUtilLog -Component "Install" -Message "Install package manager split: winget=$(@($packagesWinget).Count), choco=$(@($packagesChoco).Count), npm=$(@($packagesNpm).Count), script=$(@($packagesScript).Count)"
 
         try {
             $sync.ProcessRunning = $true
@@ -96,6 +107,21 @@ function Invoke-WPFInstall {
                 $completedPercent = [int](($completedPackages / $totalPackages) * 100)
                 if ($hasUI) {
                     Set-WinUtilTweaksProgressIndicator -Visible $true -Label "Installed npm packages ($completedPackages/$totalPackages)" -Percent $completedPercent
+                    Invoke-WPFUIThread -ScriptBlock { Set-WinUtilTaskbaritem -value ($completedPercent / 100) }
+                }
+            }
+            if($packagesScript.Count -gt 0) {
+                $position = $completedPackages + 1
+                $startPercent = [int](($completedPackages / $totalPackages) * 100)
+                if ($hasUI) {
+                    Set-WinUtilTweaksProgressIndicator -Visible $true -Label "Installing script-based packages ($position/$totalPackages)" -Percent $startPercent
+                }
+
+                Install-WinUtilProgramScript -Action Install -Programs $packagesScript
+                $completedPackages += @($packagesScript).Count
+                $completedPercent = [int](($completedPackages / $totalPackages) * 100)
+                if ($hasUI) {
+                    Set-WinUtilTweaksProgressIndicator -Visible $true -Label "Installed script-based packages ($completedPackages/$totalPackages)" -Percent $completedPercent
                     Invoke-WPFUIThread -ScriptBlock { Set-WinUtilTaskbaritem -value ($completedPercent / 100) }
                 }
             }
