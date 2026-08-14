@@ -190,6 +190,8 @@ Describe "Install-WinUtilProgramNpm" {
         Mock Install-WinUtilWinget { }
         Mock Install-WinUtilProgramWinget { }
         Mock Start-Process { [pscustomobject]@{ ExitCode = 0 } }
+        Mock Get-ExecutionPolicy { 'RemoteSigned' } -ParameterFilter { $Scope -eq 'CurrentUser' }
+        Mock Set-ExecutionPolicy { }
     }
 
     It "starts npm with install arguments when npm is already on PATH" {
@@ -234,5 +236,32 @@ Describe "Install-WinUtilProgramNpm" {
 
         Should -Invoke -CommandName Start-Process -Times 0 -Exactly
         Should -Invoke -CommandName Install-WinUtilProgramWinget -Times 0 -Exactly
+    }
+
+    It "relaxes a Restricted CurrentUser execution policy so npm's .ps1 shims can run" {
+        Mock Get-Command { [pscustomobject]@{ Name = "npm" } } -ParameterFilter { $Name -eq "npm" }
+        Mock Get-ExecutionPolicy { 'Restricted' } -ParameterFilter { $Scope -eq 'CurrentUser' }
+
+        Install-WinUtilProgramNpm -Action Install -Programs @("omniroute@latest")
+
+        Should -Invoke -CommandName Set-ExecutionPolicy -Times 1 -Exactly -ParameterFilter {
+            $Scope -eq 'CurrentUser' -and $ExecutionPolicy -eq 'RemoteSigned' -and $Force -eq $true
+        }
+    }
+
+    It "leaves an already-permissive CurrentUser execution policy alone" {
+        Mock Get-Command { [pscustomobject]@{ Name = "npm" } } -ParameterFilter { $Name -eq "npm" }
+        Mock Get-ExecutionPolicy { 'Unrestricted' } -ParameterFilter { $Scope -eq 'CurrentUser' }
+
+        Install-WinUtilProgramNpm -Action Install -Programs @("omniroute@latest")
+
+        Should -Invoke -CommandName Set-ExecutionPolicy -Times 0 -Exactly
+    }
+
+    It "does not touch the execution policy on uninstall" {
+        Install-WinUtilProgramNpm -Action Uninstall -Programs @("omniroute@latest")
+
+        Should -Invoke -CommandName Get-ExecutionPolicy -Times 0 -Exactly
+        Should -Invoke -CommandName Set-ExecutionPolicy -Times 0 -Exactly
     }
 }
