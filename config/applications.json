@@ -2167,7 +2167,7 @@
     },
     "pvc-winrar": {
         "category": "Packvibecoding",
-        "subcategory": "02 - Agentes, Harness e Utils",
+        "subcategory": "01 - Instalar Primeiro",
         "choco": "winrar",
         "content": "WinRAR",
         "description": "WinRAR is a powerful archive manager that allows you to create, manage, and extract compressed files.",
@@ -2258,7 +2258,7 @@
     },
     "pvc-python3": {
         "category": "Packvibecoding",
-        "subcategory": "02 - Agentes, Harness e Utils",
+        "subcategory": "01 - Instalar Primeiro",
         "choco": "python",
         "content": "Python3",
         "description": "Python is a versatile programming language used for web development, data analysis, artificial intelligence, and more.",
