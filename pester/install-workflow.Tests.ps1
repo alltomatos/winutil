@@ -32,6 +32,9 @@ BeforeAll {
     function Install-WinUtilProgramNpm {
         param($Action, $Programs)
     }
+    function Install-WinUtilProgramScript {
+        param($Action, $Programs)
+    }
     function Invoke-WPFUIThread {
         param([scriptblock]$ScriptBlock)
     }
@@ -88,13 +91,19 @@ BeforeAll {
         param(
             [string[]]$Winget = @(),
             [string[]]$Choco = @(),
-            [string[]]$Npm = @()
+            [string[]]$Npm = @(),
+            [string[]]$Script = @()
         )
 
         $packages = @{}
         $packages["Winget"] = [System.Collections.Generic.List[string]]::new()
         $packages["Choco"] = [System.Collections.Generic.List[string]]::new()
         $packages["Npm"] = [System.Collections.Generic.List[string]]::new()
+        $packages["Script"] = [System.Collections.Generic.List[string]]::new()
+
+        foreach ($package in $Script) {
+            $null = $packages["Script"].Add($package)
+        }
 
         foreach ($package in $Winget) {
             $null = $packages["Winget"].Add($package)
@@ -168,6 +177,40 @@ Describe "Invoke-WPFInstall entrypoint" {
                 $ParameterList[1][1] -eq "Winget"
         }
         Should -Invoke -CommandName Show-WinUtilMessage -Times 0 -Exactly
+    }
+
+    It "confirms before installing a script-sourced package and proceeds on Yes" {
+        $scriptPackage = [pscustomobject]@{
+            Name = "HermesOfficial"
+            Content = "Hermes Agent (Official CLI)"
+            Description = "Hermes Agent Official CLI"
+            winget = "na"
+            script = "https://example.com/install.ps1"
+        }
+        New-WinUtilInstallTestContext -Packages @($scriptPackage)
+
+        Invoke-WPFInstall
+
+        Should -Invoke -CommandName Show-WinUtilMessage -Times 1 -Exactly -ParameterFilter {
+            $Title -eq "Confirm script-based install" -and $Message -like "*Hermes Agent (Official CLI)*" -and $Message -like "*https://example.com/install.ps1*"
+        }
+        Should -Invoke -CommandName Invoke-WPFRunspace -Times 1 -Exactly
+    }
+
+    It "aborts without installing anything when the script-sourced confirmation is declined" {
+        $scriptPackage = [pscustomobject]@{
+            Name = "HermesOfficial"
+            Content = "Hermes Agent (Official CLI)"
+            Description = "Hermes Agent Official CLI"
+            winget = "na"
+            script = "https://example.com/install.ps1"
+        }
+        New-WinUtilInstallTestContext -Packages @($scriptPackage)
+        Mock Show-WinUtilMessage { "No" } -ParameterFilter { $Title -eq "Confirm script-based install" }
+
+        Invoke-WPFInstall
+
+        Should -Invoke -CommandName Invoke-WPFRunspace -Times 0 -Exactly
     }
 
     It "prompts and exits when no packages are selected" {

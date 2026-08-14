@@ -159,14 +159,14 @@ Describe "Applications config" {
             }
 
             $hasInstallSource = $false
-            foreach ($sourceField in @("winget", "choco", "npm")) {
+            foreach ($sourceField in @("winget", "choco", "npm", "script")) {
                 if ($entryFields -contains $sourceField -and -not [string]::IsNullOrWhiteSpace([string]$entry.Value.$sourceField)) {
                     $hasInstallSource = $true
                 }
             }
 
             if (-not $hasInstallSource) {
-                $invalidEntries.Add("$($entry.Name) missing winget/choco/npm install source")
+                $invalidEntries.Add("$($entry.Name) missing winget/choco/npm/script install source")
             }
         }
 
