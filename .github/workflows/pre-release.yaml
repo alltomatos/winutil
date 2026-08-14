@@ -33,6 +33,7 @@ jobs:
 
       - name: Create Pull Request for Updated Docs and JSON Links
         id: cpr
+        continue-on-error: true # Auxiliary docs PR; a failure here (e.g. AUTO_MERGE token permissions) must not block the release build below
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.AUTO_MERGE }}
