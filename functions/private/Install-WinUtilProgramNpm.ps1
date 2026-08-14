@@ -37,6 +37,19 @@ Function Install-WinUtilProgramNpm {
         }
     }
 
+    if ($Action -eq 'Install') {
+        # npm CLI tools invoked by bare name (e.g. "omniroute") resolve to the .ps1 shim npm
+        # generates alongside the .cmd one, and Windows' default CurrentUser policy
+        # (Restricted) blocks those from running outside of WinUtil's own bypassed process.
+        # Without this, the packages installed above would appear to work here but fail the
+        # moment the user opens an ordinary PowerShell window.
+        $currentUserPolicy = Get-ExecutionPolicy -Scope CurrentUser
+        if ($currentUserPolicy -in @('Restricted', 'Undefined')) {
+            Write-WinUtilLog -Component "Package" -Message "PowerShell execution policy for CurrentUser is $currentUserPolicy, which blocks npm's .ps1 command shims. Setting it to RemoteSigned."
+            Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+        }
+    }
+
     $verb = if ($Action -eq 'Install') { "install" } else { "uninstall" }
 
     foreach ($program in $packages) {
