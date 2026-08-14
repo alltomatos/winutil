@@ -242,6 +242,15 @@
         "winget": "Kitware.CMake",
         "foss": true
     },
+    "antigravity": {
+        "category": "Development",
+        "choco": "na",
+        "content": "Antigravity CLI",
+        "description": "Antigravity CLI brings Google's Antigravity agent harness (reasoning, execution, orchestration) directly into your terminal, via the agy command.",
+        "link": "https://github.com/google-antigravity/antigravity-cli",
+        "winget": "Google.AntigravityCLI",
+        "foss": false
+    },
     "codex": {
         "category": "Development",
         "choco": "codex",
@@ -2092,6 +2101,15 @@
         "description": "Anthropic's agentic coding tool for terminal and IDE development workflows.",
         "link": "https://code.claude.com/",
         "winget": "Anthropic.ClaudeCode",
+        "foss": false
+    },
+    "pvc-antigravity": {
+        "category": "Packvibecoding",
+        "choco": "na",
+        "content": "Antigravity CLI",
+        "description": "Antigravity CLI brings Google's Antigravity agent harness (reasoning, execution, orchestration) directly into your terminal, via the agy command.",
+        "link": "https://github.com/google-antigravity/antigravity-cli",
+        "winget": "Google.AntigravityCLI",
         "foss": false
     },
     "pvc-codex": {
