@@ -12,7 +12,7 @@ Describe "Install app rendering startup contract" {
 
         $categoryScript | Should -Match '\$sync\.InstallAppRenderQueue = \[System\.Collections\.Queue\]::new\(\)'
         $categoryScript | Should -Match 'Start-WinUtilInstallAppRendering'
-        $categoryScript | Should -Match 'Pre-group apps by category before creating WPF controls'
+        $categoryScript | Should -Match 'Pre-group apps by category, then by subcategory, before creating WPF controls'
     }
 
     It "renders queued apps through dispatcher callbacks when a form dispatcher exists" {

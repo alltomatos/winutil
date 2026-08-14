@@ -103,8 +103,17 @@ function Find-AppsByNameOrDescription {
 
                 $categoryLabel.Visibility = [Windows.Visibility]::Visible
 
+                # Subcategory headers aren't app entries - they carry no application key, so they
+                # can't be matched directly. Their visibility instead follows whether any app in
+                # their own subgroup matched, tracked here and applied in a second pass below.
+                $subcategoryHasMatch = @{}
+
                 foreach ($appControl in $wrapPanel.Children) {
                     $appTag = $appControl.Tag
+                    if ($appTag -is [string] -and $appTag.StartsWith("SubcategoryHeader:")) {
+                        continue
+                    }
+
                     $appEntry = $null
 
                     if (-not [string]::IsNullOrWhiteSpace($appTag) -and $sync.configs.applicationsHashtable.ContainsKey($appTag)) {
@@ -120,6 +129,9 @@ function Find-AppsByNameOrDescription {
                         if ($categoryMatch -and $textMatch) {
                             $appControl.Visibility = [Windows.Visibility]::Visible
                             $categoryHasMatch = $true
+                            if (-not [string]::IsNullOrWhiteSpace($appEntry.Subcategory)) {
+                                $subcategoryHasMatch[$appEntry.Subcategory] = $true
+                            }
                         }
                         else {
                             $appControl.Visibility = [Windows.Visibility]::Collapsed
@@ -128,6 +140,14 @@ function Find-AppsByNameOrDescription {
                     else {
                         # Hide app if no entry found (data integrity issue)
                         $appControl.Visibility = [Windows.Visibility]::Collapsed
+                    }
+                }
+
+                foreach ($appControl in $wrapPanel.Children) {
+                    $appTag = $appControl.Tag
+                    if ($appTag -is [string] -and $appTag.StartsWith("SubcategoryHeader:")) {
+                        $subcategoryKey = $appTag.Substring("SubcategoryHeader:".Length)
+                        $appControl.Visibility = if ($subcategoryHasMatch[$subcategoryKey]) { [Windows.Visibility]::Visible } else { [Windows.Visibility]::Collapsed }
                     }
                 }
 

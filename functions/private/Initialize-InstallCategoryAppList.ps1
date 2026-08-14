@@ -16,14 +16,25 @@ function Initialize-InstallCategoryAppList {
             $Apps
         )
 
-        # Pre-group apps by category before creating WPF controls.
+        # Pre-group apps by category, then by subcategory, before creating WPF controls.
+        # A category with only the default "" subcategory renders exactly like before (no
+        # subheader). Subcategory keys are sorted as-is, so a "01 - ", "02 - " prefix controls
+        # display order; that prefix is stripped for the header text.
         $appsByCategory = @{}
         foreach ($appKey in $Apps.Keys) {
             $category = $Apps.$appKey.Category
-            if (-not $appsByCategory.ContainsKey($category)) {
-                $appsByCategory[$category] = @()
+            $subcategory = $Apps.$appKey.Subcategory
+            if ([string]::IsNullOrWhiteSpace($subcategory)) {
+                $subcategory = ""
             }
-            $appsByCategory[$category] += $appKey
+
+            if (-not $appsByCategory.ContainsKey($category)) {
+                $appsByCategory[$category] = @{}
+            }
+            if (-not $appsByCategory[$category].ContainsKey($subcategory)) {
+                $appsByCategory[$category][$subcategory] = @()
+            }
+            $appsByCategory[$category][$subcategory] += $appKey
         }
         $sync.InstallAppRenderQueue = [System.Collections.Queue]::new()
 
@@ -96,11 +107,22 @@ function Initialize-InstallCategoryAppList {
             # Add the entire category container to the target element
             $null = $TargetElement.Items.Add($categoryContainer)
 
-            $sync.InstallAppRenderQueue.Enqueue([pscustomobject]@{
-                Category = $category
-                TargetElement = $wrapPanel
-                AppKeys = @($appsByCategory[$category] | Sort-Object)
-            })
+            $subcategoryGroups = $appsByCategory[$category]
+            $subcategoryKeys = @($subcategoryGroups.Keys | Sort-Object)
+            $hasRealSubcategories = @($subcategoryKeys | Where-Object { $_ -ne "" }).Count -gt 0
+
+            foreach ($subcategoryKey in $subcategoryKeys) {
+                $hasSubcategoryHeader = $hasRealSubcategories -and $subcategoryKey -ne ""
+
+                $sync.InstallAppRenderQueue.Enqueue([pscustomobject]@{
+                    Category = $category
+                    # Raw key (e.g. "01 - Instalar Primeiro") so it matches $appEntry.Subcategory
+                    # exactly for filtering; the numeric ordering prefix is stripped only for display.
+                    Subcategory = if ($hasSubcategoryHeader) { $subcategoryKey } else { $null }
+                    TargetElement = $wrapPanel
+                    AppKeys = @($subcategoryGroups[$subcategoryKey] | Sort-Object)
+                })
+            }
         }
 
         Start-WinUtilInstallAppRendering
