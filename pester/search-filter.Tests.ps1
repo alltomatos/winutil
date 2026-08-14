@@ -173,6 +173,7 @@ namespace Windows.Controls
                         Content = "Firefox"
                         Description = "Fast private browser"
                         Category = "Browsers"
+                        Subcategory = "01 - Fast Browsers"
                     }
                     WPFInstallMedia = [pscustomobject]@{
                         Content = "VLC"
@@ -339,6 +340,24 @@ Describe "Find-AppsByNameOrDescription" {
         $browserItem.Visibility | Should -Be ([Windows.Visibility]::Visible)
         $expandedCategory.Children[1].Visibility | Should -Be ([Windows.Visibility]::Visible)
         $mediaItem.Visibility | Should -Be ([Windows.Visibility]::Visible)
+    }
+
+    It "keeps a subcategory header visible only while its own subgroup has a match" {
+        $browserItem = New-WinUtilAppSearchItem -Tag "WPFInstallBrowser"
+        $subHeader = New-WinUtilAppSearchItem -Tag "SubcategoryHeader:01 - Fast Browsers"
+
+        $category = New-WinUtilAppCategory -Label "- Browsers" -Items @($subHeader, $browserItem)
+        New-WinUtilAppSearchContext -Categories @($category)
+
+        Find-AppsByNameOrDescription -SearchString "Firefox"
+
+        $browserItem.Visibility | Should -Be ([Windows.Visibility]::Visible)
+        $subHeader.Visibility | Should -Be ([Windows.Visibility]::Visible)
+
+        Find-AppsByNameOrDescription -SearchString "no-such-app"
+
+        $browserItem.Visibility | Should -Be ([Windows.Visibility]::Collapsed)
+        $subHeader.Visibility | Should -Be ([Windows.Visibility]::Collapsed)
     }
 
     It "shows matching apps by description and hides categories without matches" {
