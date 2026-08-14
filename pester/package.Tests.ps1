@@ -198,7 +198,7 @@ Describe "Install-WinUtilProgramNpm" {
         Install-WinUtilProgramNpm -Action Install -Programs @("omniroute@latest")
 
         Should -Invoke -CommandName Start-Process -Times 1 -Exactly -ParameterFilter {
-            $FilePath -eq "npm" -and
+            $FilePath -eq "npm.cmd" -and
                 (@($ArgumentList) -join "|") -eq "install|-g|omniroute@latest" -and
                 $NoNewWindow -eq $true -and
                 $Wait -eq $true -and
@@ -216,7 +216,7 @@ Describe "Install-WinUtilProgramNpm" {
             $Action -eq "Install" -and (@($Programs) -join "|") -eq "OpenJS.NodeJS.LTS"
         }
         Should -Invoke -CommandName Start-Process -Times 1 -Exactly -ParameterFilter {
-            $FilePath -eq "npm" -and (@($ArgumentList) -join "|") -eq "install|-g|omniroute@latest"
+            $FilePath -eq "npm.cmd" -and (@($ArgumentList) -join "|") -eq "install|-g|omniroute@latest"
         }
     }
 
@@ -225,7 +225,7 @@ Describe "Install-WinUtilProgramNpm" {
 
         Should -Invoke -CommandName Install-WinUtilProgramWinget -Times 0 -Exactly
         Should -Invoke -CommandName Start-Process -Times 1 -Exactly -ParameterFilter {
-            $FilePath -eq "npm" -and (@($ArgumentList) -join "|") -eq "uninstall|-g|omniroute@latest"
+            $FilePath -eq "npm.cmd" -and (@($ArgumentList) -join "|") -eq "uninstall|-g|omniroute@latest"
         }
     }
 

@@ -43,7 +43,10 @@ Function Install-WinUtilProgramNpm {
         $arguments = @($verb, "-g", $program)
 
         Write-WinUtilLog -Component "Package" -Message "$Action npm package: $program"
-        $process = Start-Process -FilePath npm -ArgumentList $arguments -NoNewWindow -Wait -PassThru
+        # npm.cmd, not npm: Start-Process launches the file directly rather than through
+        # cmd.exe, and the extensionless "npm" on PATH is a POSIX shell shim, not a PE
+        # binary Windows can execute - that fails with "not a valid Win32 application".
+        $process = Start-Process -FilePath "npm.cmd" -ArgumentList $arguments -NoNewWindow -Wait -PassThru
         Write-WinUtilLog -Component "Package" -Message "$Action npm package completed: $program (exit code: $($process.ExitCode))"
     }
 }
