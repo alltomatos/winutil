@@ -242,6 +242,15 @@
         "winget": "Kitware.CMake",
         "foss": true
     },
+    "antigravity": {
+        "category": "Development",
+        "choco": "na",
+        "content": "Antigravity CLI",
+        "description": "Antigravity CLI brings Google's Antigravity agent harness (reasoning, execution, orchestration) directly into your terminal, via the agy command.",
+        "link": "https://github.com/google-antigravity/antigravity-cli",
+        "winget": "Google.AntigravityCLI",
+        "foss": false
+    },
     "codex": {
         "category": "Development",
         "choco": "codex",
@@ -2085,6 +2094,15 @@
         "winget": "OpenJS.NodeJS.LTS",
         "foss": true
     },
+    "pvc-claude": {
+        "category": "Packvibecoding",
+        "choco": "claude",
+        "content": "Claude Desktop",
+        "description": "Anthropic's Claude desktop application for focused AI-assisted work and chat.",
+        "link": "https://claude.ai/download",
+        "winget": "Anthropic.Claude",
+        "foss": false
+    },
     "pvc-claude-code": {
         "category": "Packvibecoding",
         "choco": "claude-code",
@@ -2092,6 +2110,15 @@
         "description": "Anthropic's agentic coding tool for terminal and IDE development workflows.",
         "link": "https://code.claude.com/",
         "winget": "Anthropic.ClaudeCode",
+        "foss": false
+    },
+    "pvc-antigravity": {
+        "category": "Packvibecoding",
+        "choco": "na",
+        "content": "Antigravity CLI",
+        "description": "Antigravity CLI brings Google's Antigravity agent harness (reasoning, execution, orchestration) directly into your terminal, via the agy command.",
+        "link": "https://github.com/google-antigravity/antigravity-cli",
+        "winget": "Google.AntigravityCLI",
         "foss": false
     },
     "pvc-codex": {
@@ -2110,6 +2137,15 @@
         "description": "OpenCode is an open source AI coding agent that runs as a terminal CLI.",
         "link": "https://opencode.ai",
         "winget": "SST.opencode",
+        "foss": true
+    },
+    "pvc-opencodedesktop": {
+        "category": "Packvibecoding",
+        "choco": "na",
+        "content": "OpenCode Desktop",
+        "description": "OpenCode Desktop is the desktop app for OpenCode, an open source AI coding agent.",
+        "link": "https://opencode.ai",
+        "winget": "SST.OpenCodeDesktop",
         "foss": true
     },
     "pvc-omniroute": {
